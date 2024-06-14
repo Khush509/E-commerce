@@ -10,7 +10,7 @@ const NotFound = () => {
         Oops! The page you are looking for does not exist. It might have been moved or deleted.
       </p>
       <Link to="/">
-        <Button variant="primary">Go Back to Home</Button>
+        <Button variant="primary">Go Back Home</Button>
       </Link>
     </Container>
   );
