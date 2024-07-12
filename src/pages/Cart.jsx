@@ -107,7 +107,7 @@ const Cart = ({
           <p className="mb-4">
             It looks like you haven't added anything to your cart yet.
           </p>
-          <Link to="/home">
+          <Link to="/">
             <Button variant="primary">Shop Now</Button>
           </Link>
         </Container>

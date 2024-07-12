@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { FaHeart, FaShoppingCart, FaSignOutAlt} from 'react-icons/fa';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Navbar = () => {
   const [query, setQuery] = useState();
+  const { setAuth } = useContext(AuthContext)
+  const navigate = useNavigate()
 
   const handleInputChange = (e) => {
     setQuery(e.target.value)
+  }
+
+  console.log(query);
+
+  const handleLogout = () => {
+    setAuth(false)
+    navigate('/login')
   }
 
   return (
@@ -68,7 +78,7 @@ const Navbar = () => {
                 <NavLink className="nav-link" to="cart">Cart <FaShoppingCart /></NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="logout">Logout <FaSignOutAlt /></NavLink>
+                <div className="nav-link" onClick={handleLogout}>Logout <FaSignOutAlt /></div>
               </li>
             </ul>
           </div>
