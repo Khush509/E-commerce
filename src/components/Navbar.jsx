@@ -1,12 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { FaHeart, FaShoppingCart, FaSignOutAlt} from 'react-icons/fa';
 
 const Navbar = () => {
+  const [query, setQuery] = useState();
+
+  const handleInputChange = (e) => {
+    setQuery(e.target.value)
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/home">Brand</Link>
+        <Link className="navbar-brand" to="/">Brand</Link>
         <button 
           className="navbar-toggler" 
           type="button" 
@@ -21,10 +27,10 @@ const Navbar = () => {
           <div className="d-flex align-items-center">
             <ul className="navbar-nav me-2">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/home">Home</Link>
+                <NavLink className="nav-link active" aria-current="page" to="/">Home</NavLink>
               </li>
               <li className="nav-item dropdown">
-                <Link 
+                <NavLink 
                   className="nav-link dropdown-toggle" 
                   to="#" 
                   id="navbarDropdown" 
@@ -32,12 +38,12 @@ const Navbar = () => {
                   data-bs-toggle="dropdown" 
                   aria-expanded="false">
                   Categories
-                </Link>
+                </NavLink>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><Link className="dropdown-item" to="men">Men</Link></li>
-                  <li><Link className="dropdown-item" to="women">Women</Link></li>
-                  <li><Link className="dropdown-item" to="electronics">Electronics</Link></li>
-                  <li><Link className="dropdown-item" to="jewellery">Jewellery</Link></li>
+                  <li><NavLink className="dropdown-item" to="men">Men</NavLink></li>
+                  <li><NavLink className="dropdown-item" to="women">Women</NavLink></li>
+                  <li><NavLink className="dropdown-item" to="electronics">Electronics</NavLink></li>
+                  <li><NavLink className="dropdown-item" to="jewellery">Jewellery</NavLink></li>
                 </ul>
               </li>
             </ul>
@@ -49,18 +55,20 @@ const Navbar = () => {
               placeholder="Search..." 
               aria-label="Search"
               style={{ width: '300px' }}
+              value={query}
+              onChange={handleInputChange}
             />
           </form>
           <div className="d-flex align-items-center">
             <ul className="navbar-nav ms-2">
               <li className="nav-item">
-                <Link className="nav-link" to="wishlist">Favorites <FaHeart /></Link>
+                <NavLink className="nav-link" to="wishlist">Favorites <FaHeart /></NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="cart">Cart <FaShoppingCart /></Link>
+                <NavLink className="nav-link" to="cart">Cart <FaShoppingCart /></NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="logout">Logout <FaSignOutAlt /></Link>
+                <NavLink className="nav-link" to="logout">Logout <FaSignOutAlt /></NavLink>
               </li>
             </ul>
           </div>

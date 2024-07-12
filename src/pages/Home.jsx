@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Container, Row, Col, Button} from 'react-bootstrap';
+import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 import { TbEyeFilled } from "react-icons/tb";
-import { FaHeart , FaCartPlus, FaShoppingCart} from "react-icons/fa";
+import { FaHeart, FaCartPlus, FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 
-const Home = ({ wishlist, cart, handleCart, handleFavorite, getProductDetails,slugify }) => {
+const Home = ({ wishlist, cart, handleCart, handleFavorite, getProductDetails, slugify }) => {
 
   const [productList, setProductList] = useState([]);
   const navigate = useNavigate();
@@ -61,7 +61,12 @@ const Home = ({ wishlist, cart, handleCart, handleFavorite, getProductDetails,sl
                 />
               </div>
               <Card.Body>
-                <Card.Title>{product.title}</Card.Title>
+                <Card.Title style={{
+                  maxWidth: '250px',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                }}>{product.title}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">${product.price}</Card.Subtitle>
                 <div className="d-flex justify-content-between align-items-center">
                   <Button
@@ -72,7 +77,7 @@ const Home = ({ wishlist, cart, handleCart, handleFavorite, getProductDetails,sl
                         : handleCart(product)
                     }
                   >
-                    {cart.some((item) => item.id === product.id) ? <FaShoppingCart/> : <FaCartPlus/>}
+                    {cart.some((item) => item.id === product.id) ? <FaShoppingCart /> : <FaCartPlus />}
                   </Button>
                   {/* <TbEyeFilled onClick={() => getProductDetails(product)} color='blue' size={24} /> */}
                   <Link to={`products/${slugify(product.title)}`}><TbEyeFilled onClick={() => getProductDetails(product)} color='blue' size={24} /></Link>

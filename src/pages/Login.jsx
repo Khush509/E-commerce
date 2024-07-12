@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { setAuth } = useContext(AuthContext)
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,8 +21,10 @@ const Login = () => {
           'Content-Type': 'application/json; charset=UTF-8'
         }
       });
-      console.log(response.data);
-      navigate('/home');
+      if (response?.status === 200) {
+        setAuth(true)
+        navigate('/');
+      }
     } catch (error) {
       setError('Invalid credentials');
       console.error('There was an error!', error);

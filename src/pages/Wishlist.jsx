@@ -57,7 +57,12 @@ const Wishlist = ({
                     />
                   </div>
                   <Card.Body>
-                    <Card.Title>{product.title}</Card.Title>
+                    <Card.Title style={{
+                      maxWidth: '250px',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis'
+                    }}>{product.title}</Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">
                       ${product.price}
                     </Card.Subtitle>
@@ -76,7 +81,7 @@ const Wishlist = ({
                           <FaCartPlus />
                         )}
                       </Button>
-                      <Link to={`products/${slugify(product.title)}`}>
+                      <Link to={`/products/${slugify(product.title)}`}>
                         <TbEyeFilled
                           onClick={() => getProductDetails(product)}
                           color="blue"
@@ -92,15 +97,15 @@ const Wishlist = ({
         </Container>
       ) : (
         <Container className="text-center my-5">
-      <h2>Your Wishlist is Empty</h2>
-      <p className="mb-4">
-        It looks like you haven't added any favorites yet. Browse our categories
-        and add items to your wishlist to keep track of the products you love!
-      </p>
-      <Link to="/home">
-        <Button variant="primary">Start Shopping</Button>
-      </Link>
-    </Container>
+          <h2>Your Wishlist is Empty</h2>
+          <p className="mb-4">
+            It looks like you haven't added any favorites yet. Browse our categories
+            and add items to your wishlist to keep track of the products you love!
+          </p>
+          <Link to="/">
+            <Button variant="primary">Start Shopping</Button>
+          </Link>
+        </Container>
       )}
     </div>
   );

@@ -24,7 +24,7 @@ const Womens = ({ wishlist, cart, handleCart, handleFavorite, slugify, getProduc
 
     useEffect(() => {
         handleWomenClothing();
-    },[])
+    }, [])
 
     return (
         <Container>
@@ -57,7 +57,12 @@ const Womens = ({ wishlist, cart, handleCart, handleFavorite, slugify, getProduc
                                 />
                             </div>
                             <Card.Body>
-                                <Card.Title>{product.title}</Card.Title>
+                                <Card.Title style={{
+                                    maxWidth: '250px',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis'
+                                }}>{product.title}</Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted">${product.price}</Card.Subtitle>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <Button
@@ -68,9 +73,9 @@ const Womens = ({ wishlist, cart, handleCart, handleFavorite, slugify, getProduc
                                                 : handleCart(product)
                                         }
                                     >
-                                        {cart.some((item) => item.id === product.id) ? <FaShoppingCart/> : <FaCartPlus/>}
+                                        {cart.some((item) => item.id === product.id) ? <FaShoppingCart /> : <FaCartPlus />}
                                     </Button>
-                                    <Link to={`products/${slugify(product.title)}`}><TbEyeFilled onClick={() => getProductDetails(product)} color='blue' size={24} /></Link>
+                                    <Link to={`/products/${slugify(product.title)}`}><TbEyeFilled onClick={() => getProductDetails(product)} color='blue' size={24} /></Link>
                                 </div>
                             </Card.Body>
                         </Card>

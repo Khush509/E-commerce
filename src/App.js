@@ -2,7 +2,13 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Wishlist from "./pages/Wishlist";
 import Cart from "./pages/Cart";
-import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
 import { useEffect, useState } from "react";
 import Mens from "./pages/Mens";
 import Womens from "./pages/Womens";
@@ -13,6 +19,8 @@ import axios from "axios";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "./ProtectedRoutes";
 
 function App() {
   const [wishlist, setWishlist] = useState([]);
@@ -29,7 +37,8 @@ function App() {
       if (existingIndex !== -1) {
         return [...prevCart];
       } else {
-        return [...prevCart, product];      }
+        return [...prevCart, product];
+      }
     });
     handleQuantityChange(product.id, product.price, 1, false);
   };
@@ -51,7 +60,7 @@ function App() {
     const parsedPrice = parseFloat(productPrice);
 
     if (isNaN(parsedQuantity) || isNaN(parsedPrice)) {
-      console.error("Invalid input: Quantity or Price is not a number")
+      console.error("Invalid input: Quantity or Price is not a number");
       return;
     }
 
@@ -118,141 +127,149 @@ function App() {
   }, [quantities]);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Layout />}>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
           <Route
-            index
+            path="/"
             element={
-              <Home
-                handleFavorite={handleFavorite}
-                wishlist={wishlist}
-                setWishlist={setWishlist}
-                cart={cart}
-                setCart={setCart}
-                handleRemove={handleRemove}
-                handleCart={handleCart}
-                getProductDetails={getProductDetails}
-                slugify={slugify}
-              />
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
             }
-          />
-          <Route
-            path="wishlist"
-            element={
-              <Wishlist
-                wishlist={wishlist}
-                setWishlist={setWishlist}
-                cart={cart}
-                handleCart={handleCart}
-                handleFavorite={handleFavorite}
-                slugify={slugify}
-                getProductDetails={getProductDetails}
-              />
-            }
-          />
-          <Route
-            path="cart"
-            element={
-              <Cart
-                cart={cart}
-                wishlist={wishlist}
-                setCart={setCart}
-                handleRemove={handleRemove}
-                handleQuantityChange={handleQuantityChange}
-                quantities={quantities}
-                handleCart={handleCart}
-                totalValue={totalValue}
-                handleFavorite={handleFavorite}
-                setTotalValue={setTotalValue}
-                getProductDetails={getProductDetails}
-                slugify={slugify}
-              />
-            }
-          />
-          <Route
-            path="men"
-            element={
-              <Mens
-                handleFavorite={handleFavorite}
-                wishlist={wishlist}
-                setWishlist={setWishlist}
-                cart={cart}
-                setCart={setCart}
-                handleCart={handleCart}
-                getProductDetails={getProductDetails}
-                slugify={slugify}
-              />
-            }
-          />
-          <Route
-            path="women"
-            element={
-              <Womens
-                handleFavorite={handleFavorite}
-                wishlist={wishlist}
-                setWishlist={setWishlist}
-                cart={cart}
-                setCart={setCart}
-                handleCart={handleCart}
-                getProductDetails={getProductDetails}
-                slugify={slugify}
-              />
-            }
-          />
-          <Route
-            path="electronics"
-            element={
-              <Electronics
-                handleFavorite={handleFavorite}
-                wishlist={wishlist}
-                setWishlist={setWishlist}
-                cart={cart}
-                setCart={setCart}
-                handleCart={handleCart}
-                getProductDetails={getProductDetails}
-                slugify={slugify}
-              />
-            }
-          />
-          <Route
-            path="jewellery"
-            element={
-              <Jewelleries
-                handleFavorite={handleFavorite}
-                wishlist={wishlist}
-                setWishlist={setWishlist}
-                cart={cart}
-                setCart={setCart}
-                handleCart={handleCart}
-                getProductDetails={getProductDetails}
-                slugify={slugify}
-              />
-            }
-          />
-          <Route
-            path="products/:slug"
-            element={
-              <Details
-                productDetails={productDetails}
-                handleFavorite={handleFavorite}
-                wishlist={wishlist}
-                setWishlist={setWishlist}
-                cart={cart}
-                setCart={setCart}
-                handleRemove={handleRemove}
-                handleCart={handleCart}
-                getProductDetails={getProductDetails}
-              />
-            }
-          />
-        </Route>
-          <Route path="*" element={<NotFound />}/>
-      </Routes>
-    </BrowserRouter>
+          >
+            <Route
+              index
+              element={
+                <Home
+                  handleFavorite={handleFavorite}
+                  wishlist={wishlist}
+                  setWishlist={setWishlist}
+                  cart={cart}
+                  setCart={setCart}
+                  handleRemove={handleRemove}
+                  handleCart={handleCart}
+                  getProductDetails={getProductDetails}
+                  slugify={slugify}
+                />
+              }
+            />
+            <Route
+              path="wishlist"
+              element={
+                <Wishlist
+                  wishlist={wishlist}
+                  setWishlist={setWishlist}
+                  cart={cart}
+                  handleCart={handleCart}
+                  handleFavorite={handleFavorite}
+                  slugify={slugify}
+                  getProductDetails={getProductDetails}
+                />
+              }
+            />
+            <Route
+              path="cart"
+              element={
+                <Cart
+                  cart={cart}
+                  wishlist={wishlist}
+                  setCart={setCart}
+                  handleRemove={handleRemove}
+                  handleQuantityChange={handleQuantityChange}
+                  quantities={quantities}
+                  handleCart={handleCart}
+                  totalValue={totalValue}
+                  handleFavorite={handleFavorite}
+                  setTotalValue={setTotalValue}
+                  getProductDetails={getProductDetails}
+                  slugify={slugify}
+                />
+              }
+            />
+            <Route
+              path="men"
+              element={
+                <Mens
+                  handleFavorite={handleFavorite}
+                  wishlist={wishlist}
+                  setWishlist={setWishlist}
+                  cart={cart}
+                  setCart={setCart}
+                  handleCart={handleCart}
+                  getProductDetails={getProductDetails}
+                  slugify={slugify}
+                />
+              }
+            />
+            <Route
+              path="women"
+              element={
+                <Womens
+                  handleFavorite={handleFavorite}
+                  wishlist={wishlist}
+                  setWishlist={setWishlist}
+                  cart={cart}
+                  setCart={setCart}
+                  handleCart={handleCart}
+                  getProductDetails={getProductDetails}
+                  slugify={slugify}
+                />
+              }
+            />
+            <Route
+              path="electronics"
+              element={
+                <Electronics
+                  handleFavorite={handleFavorite}
+                  wishlist={wishlist}
+                  setWishlist={setWishlist}
+                  cart={cart}
+                  setCart={setCart}
+                  handleCart={handleCart}
+                  getProductDetails={getProductDetails}
+                  slugify={slugify}
+                />
+              }
+            />
+            <Route
+              path="jewellery"
+              element={
+                <Jewelleries
+                  handleFavorite={handleFavorite}
+                  wishlist={wishlist}
+                  setWishlist={setWishlist}
+                  cart={cart}
+                  setCart={setCart}
+                  handleCart={handleCart}
+                  getProductDetails={getProductDetails}
+                  slugify={slugify}
+                />
+              }
+            />
+            <Route
+              path="products/:slug"
+              element={
+                <Details
+                  productDetails={productDetails}
+                  handleFavorite={handleFavorite}
+                  wishlist={wishlist}
+                  setWishlist={setWishlist}
+                  cart={cart}
+                  setCart={setCart}
+                  handleRemove={handleRemove}
+                  handleCart={handleCart}
+                  getProductDetails={getProductDetails}
+                />
+              }
+            />
+          </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
